@@ -13,12 +13,23 @@ function setup() {
   character = new Character(200, 300, 40, 40);
 
   platforms.push(new Platform(150, 400, 100, 20));
-  platforms.push(new Platform(80, 250, 100, 20));
-  platforms.push(new Platform(200, 100, 100, 20));
+  platforms.push(new Platform(80, 300, 100, 20));
+  platforms.push(new Platform(200, 200, 100, 20));
 }
 
 function draw() {
   background(200);
+
+  let camera = 250;
+  if (character.y < camera) {
+    let dy = camera - character.y;
+
+    character.y = camera;
+
+    for (let p of platforms) {
+      p.y += dy;
+    }
+  }
 
   character.update();
 
@@ -28,6 +39,7 @@ function draw() {
     if (character.isLandingOn(p)) {
       character.vy = 0;
       character.y = p.y - character.h;
+      character.jump();
     }
   }
 
@@ -37,8 +49,4 @@ function draw() {
   }
 
   character.draw();
-}
-
-function keyPressed() {
-  character.jump();
 }

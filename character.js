@@ -7,7 +7,7 @@ export default class Character {
 
     this.vy = 0;
     this.gravity = 0.6;
-    this.jumpForce = -12;
+    this.jumpForce = -13;
   }
 
   update() {
