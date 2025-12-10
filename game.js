@@ -7,14 +7,25 @@ let canvasHeight = 600;
 let character;
 let platforms = [];
 
+function platformGeneration() {
+  platforms = platforms.filter((p) => p.y < canvasHeight);
+
+  while (platforms.length < 4) {
+    let newX = random(0, canvasWidth - 100);
+    let newY = -200;
+
+    platforms.push(new Platform(newX, newY, 100, 20));
+  }
+}
+
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
 
   character = new Character(200, 300, 40, 40);
 
   platforms.push(new Platform(150, 400, 100, 20));
-  platforms.push(new Platform(80, 300, 100, 20));
-  platforms.push(new Platform(200, 200, 100, 20));
+  platforms.push(new Platform(80, 200, 100, 20));
+  platforms.push(new Platform(200, 0, 100, 20));
 }
 
 function draw() {
@@ -42,6 +53,8 @@ function draw() {
   }
 
   character.update();
+
+  platformGeneration();
 
   for (let p of platforms) {
     p.draw();
