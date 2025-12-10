@@ -5,14 +5,42 @@ export default class Character {
     this.w = w;
     this.h = h;
 
+    this.vx = 0; // horizontal velocity
+    this.ax = 0.6; // acceleration
+    this.friction = 0.85;
+    this.maxSpeed = 6;
+
     this.vy = 0;
     this.gravity = 0.6;
     this.jumpForce = -13;
   }
 
   update() {
+    // gravity
     this.vy += this.gravity;
     this.y += this.vy;
+
+    // horizontal motion
+    this.x += this.vx;
+
+    // friction
+    this.vx *= this.friction;
+
+    // limit speed
+    if (this.vx > this.maxSpeed) this.vx = this.maxSpeed;
+    if (this.vx < -this.maxSpeed) this.vx = -this.maxSpeed;
+  }
+
+  moveLeft() {
+    this.vx -= this.ax;
+  }
+
+  moveRight() {
+    this.vx += this.ax;
+  }
+
+  jump() {
+    this.vy = this.jumpForce;
   }
 
   draw() {
@@ -26,10 +54,6 @@ export default class Character {
     noFill();
     stroke(0);
     arc(this.x + this.w * 0.5, this.y + this.h * 0.7, 40, 10, 0, PI);
-  }
-
-  jump() {
-    this.vy = this.jumpForce;
   }
 
   isLandingOn(platform) {

@@ -20,6 +20,16 @@ function setup() {
 function draw() {
   background(200);
 
+  if (keyIsDown(65)) {
+    // A key
+    character.moveLeft();
+  }
+  if (keyIsDown(68)) {
+    // D key
+    character.moveRight();
+  }
+  //
+
   let camera = 250;
   if (character.y < camera) {
     let dy = camera - character.y;
@@ -49,4 +59,12 @@ function draw() {
   }
 
   character.draw();
+}
+
+function keyPressed() {
+  if (key === "A" || key === "a") {
+    character.moveLeft();
+  } else if (key === "D" || key === "d") {
+    character.moveRight();
+  }
 }
