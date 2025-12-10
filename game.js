@@ -1,54 +1,44 @@
-import platform from "platform";
-import { Character } from "./Character1";
+import Platform from "./platform.js";
+import Character from "./character.js";
+
+let canvasWidth = 400;
+let canvasHeight = 600;
+
+let character;
+let platforms = [];
 
 function setup() {
   createCanvas(canvasWidth, canvasHeight);
-}
 
-function preload() {
-  player = loadImage("./assets/jumper.png");
-}
+  character = new Character(200, 300, 40, 40);
 
-// Obstacle / Spike / Death
-function drawObstacle() {
-  push();
-  fill("red");
-  triangle(180, 300, 210, 240, 240, 300);
-  pop();
+  platforms.push(new Platform(150, 400, 100, 20));
+  platforms.push(new Platform(80, 250, 100, 20));
+  platforms.push(new Platform(200, 100, 100, 20));
 }
-
-let canvasWidth = 400;
-let canvasHeight = 400;
-let floor = 300;
-let character = new Character(player, 50, 50, 50, 50);
 
 function draw() {
-  background(100, 100, 100);
+  background(200);
+
+  character.update();
+
+  for (let p of platforms) {
+    p.draw();
+
+    if (character.isLandingOn(p)) {
+      character.vy = 0;
+      character.y = p.y - character.h;
+    }
+  }
+
+  if (character.y + character.h > height) {
+    character.y = height - character.h;
+    character.vy = 0;
+  }
 
   character.draw();
-  platform.draw();
-
-  platform.x -= 10;
-  if (platform.x + platform.w < 0) {
-    platform.x = 500;
-  }
-
-  if (
-    character.y + character.h < 300 &&
-    !character.isColliding(character, platform)
-  ) {
-    character.y += 10;
-  }
-
-  // Floor
-  line(0, floor, canvasWidth, floor);
 }
 
 function keyPressed() {
-  if (
-    character.y + character.h === floor ||
-    character.isColliding(character, platform)
-  ) {
-    character.y -= 120;
-  }
+  character.jump();
 }
