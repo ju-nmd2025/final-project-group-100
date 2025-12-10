@@ -1,5 +1,6 @@
 export default class Character {
-  constructor(x, y, w, h) {
+  constructor(player, x, y, w, h) {
+    this.player = player;
     this.x = x;
     this.y = y;
     this.w = w;
@@ -8,6 +9,7 @@ export default class Character {
   }
 
   draw() {
+    image(this.player, this.x, this.y, this.w, this.h);
     // Body
     fill("green");
     rect(this.x, this.y, this.w, this.h);
