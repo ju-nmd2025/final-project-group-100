@@ -6,9 +6,9 @@ export default class Character {
     this.h = h;
 
     this.vx = 0; // horizontal velocity
-    this.ax = 0.6; // acceleration
+    this.ax = 0.9; // acceleration
     this.friction = 0.85;
-    this.maxSpeed = 6;
+    this.maxSpeed = 10;
 
     this.vy = 0;
     this.gravity = 0.6;
