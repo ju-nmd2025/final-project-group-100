@@ -56,10 +56,13 @@ function draw() {
 
   // Screen wrap (left ↔ right)
   if (character.x + character.w < 0) {
+    // off the left edge
     character.x = width;
   } else if (character.x > width) {
+    // off the right edge
     character.x = -character.w;
   }
+  //makes it so the character wraps around the screen horizontally
 
   platformGeneration();
 
