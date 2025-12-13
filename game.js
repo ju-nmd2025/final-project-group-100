@@ -54,6 +54,13 @@ function draw() {
 
   character.update();
 
+  // Screen wrap (left ↔ right)
+  if (character.x + character.w < 0) {
+    character.x = width;
+  } else if (character.x > width) {
+    character.x = -character.w;
+  }
+
   platformGeneration();
 
   for (let p of platforms) {
