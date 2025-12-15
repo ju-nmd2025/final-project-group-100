@@ -11,7 +11,9 @@ export default class Platform {
   }
 
   draw() {
+    push();
     fill(this.color);
     rect(this.x, this.y, this.w, this.h);
+    pop();
   }
 }

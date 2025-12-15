@@ -6,6 +6,7 @@ let canvasHeight = 600;
 
 let character;
 let platforms = [];
+let score = 0;
 
 function platformGeneration() {
   platforms = platforms.filter((p) => p.y < canvasHeight);
@@ -81,6 +82,9 @@ function draw() {
     character.vy = 0;
   }
 
+  score = character.y < camera ? score + (camera - character.y) * 0.1 : score;
+
+  scoreCounter();
   character.draw();
 }
 
@@ -91,3 +95,16 @@ function keyPressed() {
     character.moveRight();
   }
 }
+
+function scoreCounter() {
+  push();
+  fill(0);
+  textSize(16);
+  stroke(0);
+  text("Score: " + floor(score), 10, 20);
+  pop();
+}
+// The score increases as the character ascends
+//if (character.y < canvasHeight / 2) {
+//score += (canvasHeight / 2 - character.y) * 0.1;
+//}
