@@ -86,6 +86,8 @@ function draw() {
 
   scoreCounter();
   character.draw();
+  startMenu();
+  gameOver();
 }
 
 function keyPressed() {
@@ -108,3 +110,39 @@ function scoreCounter() {
 //if (character.y < canvasHeight / 2) {
 //score += (canvasHeight / 2 - character.y) * 0.1;
 //}
+
+function startMenu() {
+  push();
+  buttonStart();
+  fill(0);
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("Start", canvasWidth / 2, canvasHeight / 2);
+
+  mousePressed();
+  pop();
+}
+
+function buttonStart() {
+  fill(0, 250, 0);
+  rect(160, 275, 83, 50);
+}
+
+function mousePressed() {
+  if (mouseX >= 150 && mouseX <= 250 && mouseY >= 280 && mouseY <= 320);
+}
+
+function gameOver() {
+  push();
+  buttonEnd();
+  fill(255, 0, 0);
+  textSize(48);
+  textAlign(CENTER, CENTER);
+  text("Game Over", canvasWidth / 2, canvasHeight / 2);
+  pop();
+}
+
+function buttonEnd() {
+  fill(250, 0, 0);
+  rect(150, 350, 100, 50);
+}
