@@ -5,28 +5,35 @@ export default class Character {
     this.w = w;
     this.h = h;
 
-    this.vx = 0; // horizontal velocity
-    this.ax = 0.9; // acceleration
+    // Horizontal movement
+    this.vx = 0;
+    this.ax = 0.9;
     this.friction = 0.85;
     this.maxSpeed = 10;
 
+    // Vertical movement
     this.vy = 0;
     this.gravity = 0.6;
     this.jumpForce = -17;
+
+    this.prevY = y;
   }
 
   update() {
-    // gravity
+    // storing pervious position
+    this.prevY = this.y;
+
+    // Gravity
     this.vy += this.gravity;
     this.y += this.vy;
 
-    // horizontal motion
+    // Horizontal motion
     this.x += this.vx;
 
-    // friction
+    // Friction
     this.vx *= this.friction;
 
-    // limit speed
+    // Clamp speed
     if (this.vx > this.maxSpeed) this.vx = this.maxSpeed;
     if (this.vx < -this.maxSpeed) this.vx = -this.maxSpeed;
   }
@@ -56,15 +63,16 @@ export default class Character {
     arc(this.x + this.w * 0.5, this.y + this.h * 0.7, 40, 10, 0, PI);
   }
 
+  // landing detection
   isLandingOn(platform) {
     if (this.vy <= 0) return false;
 
     let withinX =
       this.x + this.w > platform.x && this.x < platform.x + platform.w;
 
-    let touchingTop =
-      this.y + this.h <= platform.y && this.y + this.h + this.vy >= platform.y;
+    let wasAbove = this.prevY + this.h <= platform.y;
+    let isBelow = this.y + this.h >= platform.y;
 
-    return withinX && touchingTop;
+    return withinX && wasAbove && isBelow;
   }
 }
