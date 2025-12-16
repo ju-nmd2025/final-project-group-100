@@ -1,6 +1,8 @@
 import Platform from "./platform.js";
 import Character from "./character.js";
 
+let gameState = "start";
+
 let canvasWidth = 400;
 let canvasHeight = 600;
 
@@ -31,6 +33,16 @@ function setup() {
 
 function draw() {
   background(200);
+
+  if (gameState === "start") {
+    startMenu();
+    return;
+  }
+
+  if (gameState === "over") {
+    gameOver();
+    return;
+  }
 
   if (keyIsDown(65)) {
     // A key
@@ -78,16 +90,26 @@ function draw() {
   }
 
   if (character.y + character.h > height) {
-    character.y = height - character.h;
-    character.vy = 0;
+    gameState = "over";
   }
 
   score = character.y < camera ? score + (camera - character.y) * 0.1 : score;
 
   scoreCounter();
   character.draw();
-  startMenu();
-  gameOver();
+}
+
+function resetGame() {
+  score = 0;
+  platforms = [];
+
+  character = new Character(200, 300, 40, 40);
+
+  platforms.push(new Platform(150, 400, 100, 20));
+  platforms.push(new Platform(80, 200, 100, 20));
+  platforms.push(new Platform(200, 0, 100, 20));
+
+  gameState = "play";
 }
 
 function keyPressed() {
@@ -118,8 +140,6 @@ function startMenu() {
   textSize(32);
   textAlign(CENTER, CENTER);
   text("Start", canvasWidth / 2, canvasHeight / 2);
-
-  mousePressed();
   pop();
 }
 
@@ -128,21 +148,39 @@ function buttonStart() {
   rect(160, 275, 83, 50);
 }
 
+function buttonEnd() {
+  fill(0, 250, 0);
+  rect(150, 350, 100, 50);
+}
+
 function mousePressed() {
-  if (mouseX >= 150 && mouseX <= 250 && mouseY >= 280 && mouseY <= 320);
+  if (gameState === "start") {
+    if (mouseX >= 160 && mouseX <= 243 && mouseY >= 275 && mouseY <= 325) {
+      gameState = "play";
+    }
+  } else if (gameState === "over") {
+    if (mouseX >= 150 && mouseX <= 250 && mouseY >= 350 && mouseY <= 400) {
+      resetGame();
+    }
+  }
 }
 
 function gameOver() {
   push();
-  buttonEnd();
-  fill(255, 0, 0);
-  textSize(48);
   textAlign(CENTER, CENTER);
-  text("Game Over", canvasWidth / 2, canvasHeight / 2);
-  pop();
-}
 
-function buttonEnd() {
-  fill(250, 0, 0);
-  rect(150, 350, 100, 50);
+  fill(0, 0, 0);
+  textSize(48);
+  text("Game Over", canvasWidth / 2, canvasHeight / 2 - 100);
+
+  fill(0);
+  textSize(24);
+  text("Final Score: " + floor(score), canvasWidth / 2, canvasHeight / 2 - 40);
+
+  buttonEnd();
+  fill(0);
+  textSize(20);
+  text("Restart", canvasWidth / 2, 375);
+
+  pop();
 }
