@@ -171,5 +171,6 @@ function gameOver() {
   text("Final Score: " + floor(score), canvasWidth / 2, canvasHeight / 2 - 40);
   buttonEnd();
   textSize(20);
+  fill(0);
   text("Restart", canvasWidth / 2, 375);
 }
